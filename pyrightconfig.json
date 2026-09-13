@@ -1,0 +1,12 @@
+{
+  "venvPath": "backend",
+  "venv": ".venv",
+  "include": ["backend"],
+  "pythonVersion": "3.12",
+
+  // Language server stays on for autocomplete / go-to-definition / hover.
+  // Only the type-error diagnostics are silenced -- the codebase has no
+  // annotations, so they were mostly noise from Flask/pymongo stubs.
+  // Set to "basic" if you start annotating.
+  "typeCheckingMode": "off"
+}

@@ -1,0 +1,6 @@
+-r requirements.txt
+
+# Pinned deliberately: ruff's lint and format output changes between minor
+# versions, so an unpinned install lets editors, teammates, and CI disagree
+# about what "clean" means. Bump this intentionally, not incidentally.
+ruff==0.16.7
