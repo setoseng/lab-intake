@@ -1,22 +1,5 @@
-function formatSampleType(sampleType) {
-  return sampleType.charAt(0).toUpperCase() + sampleType.slice(1);
-}
-
-function formatDateOfBirth(isoDate) {
-  const parsed = new Date(isoDate);
-  if (Number.isNaN(parsed.getTime())) {
-    return isoDate;
-  }
-  // date_of_birth is a date-only ISO string, which parses as UTC midnight.
-  // Pin formatting to UTC so the shown day never slips back one in timezones
-  // west of UTC.
-  return parsed.toLocaleDateString("en-US", {
-    timeZone: "UTC",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+import { formatDate } from "../utils/formatDate";
+import { formatSampleType } from "../utils/formatSampleType";
 
 export default function ConfirmCard({ sample, onConfirm, onChange }) {
   const isSubmitted = sample.is_submitted;
@@ -42,9 +25,7 @@ export default function ConfirmCard({ sample, onConfirm, onChange }) {
         </div>
         <div>
           <dt className="text-slate-500">Date of birth</dt>
-          <dd className="font-medium">
-            {formatDateOfBirth(sample.date_of_birth)}
-          </dd>
+          <dd className="font-medium">{formatDate(sample.date_of_birth)}</dd>
         </div>
       </dl>
 
