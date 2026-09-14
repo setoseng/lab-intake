@@ -41,7 +41,8 @@ curl http://localhost:4000/api/sample/BLD-001
 
 ## Run the frontend
 
-Requires Node 20+ and [pnpm](https://pnpm.io/).
+Requires Node 20.19 or later in the 20.x series, or Node 22.12 or later,
+and [pnpm](https://pnpm.io/).
 
 ```bash
 cd frontend

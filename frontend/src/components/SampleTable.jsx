@@ -1,5 +1,6 @@
 import { formatDate } from "../utils/formatDate";
 import { formatSampleType } from "../utils/formatSampleType";
+import { showOrDash } from "../utils/showOrDash";
 
 const COLUMNS = [
   "Sample ID",
@@ -10,22 +11,7 @@ const COLUMNS = [
   "Priority",
   "Volume",
   "Notes",
-  "Status",
 ];
-
-function showOrDash(value) {
-  return value === null || value === undefined ? "—" : value;
-}
-
-function formatCollectionDate(value) {
-  return value === null ? "—" : formatDate(value);
-}
-
-// A sample is submitted once it has a collection date; there is no separate
-// status field in the database.
-function formatStatus(sample) {
-  return sample.collection_date === null ? "Pending" : "Submitted";
-}
 
 export default function SampleTable({ samples }) {
   return (
@@ -47,7 +33,7 @@ export default function SampleTable({ samples }) {
                 colSpan={COLUMNS.length}
                 className="px-4 py-6 text-center text-slate-500"
               >
-                No samples match.
+                No submitted samples match.
               </td>
             </tr>
           )}
@@ -64,7 +50,7 @@ export default function SampleTable({ samples }) {
                 {formatSampleType(sample.sample_type)}
               </td>
               <td className="whitespace-nowrap px-4 py-3">
-                {formatCollectionDate(sample.collection_date)}
+                {formatDate(sample.collection_date)}
               </td>
               <td className="px-4 py-3">{showOrDash(sample.priority)}</td>
               <td className="px-4 py-3">{showOrDash(sample.volume)}</td>
@@ -74,7 +60,6 @@ export default function SampleTable({ samples }) {
               >
                 {showOrDash(sample.notes)}
               </td>
-              <td className="px-4 py-3">{formatStatus(sample)}</td>
             </tr>
           ))}
         </tbody>

@@ -2,10 +2,7 @@ import { Link } from "react-router-dom";
 
 import { formatDate } from "../utils/formatDate";
 import { formatSampleType } from "../utils/formatSampleType";
-
-function showOrDash(value) {
-  return value === null || value === undefined ? "—" : value;
-}
+import { showOrDash } from "../utils/showOrDash";
 
 export default function SuccessCard({ record, onReset }) {
   return (

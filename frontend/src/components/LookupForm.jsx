@@ -10,6 +10,11 @@ export default function LookupForm({ onFound }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (!sampleId.trim()) {
+      setError("Sample ID is required");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -44,7 +49,7 @@ export default function LookupForm({ onFound }) {
           />
           <button
             type="submit"
-            disabled={loading || !sampleId.trim()}
+            disabled={loading}
             className="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40"
           >
             {loading ? "Looking up..." : "Look up"}
