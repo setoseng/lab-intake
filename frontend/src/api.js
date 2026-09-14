@@ -4,7 +4,9 @@ async function request(path, options = {}) {
     ...options,
   });
 
-  const body = await res.json().catch(() => {});
+  // An error response may have no body at all, so fall back to an empty
+  // object rather than letting the parse failure mask the real status.
+  const body = await res.json().catch(() => ({}));
   if (!res.ok) {
     const err = new Error(body.error || "Request failed");
     err.status = res.status; // 404, 409, 400...
@@ -15,16 +17,17 @@ async function request(path, options = {}) {
 }
 
 export const lookupSample = (id) =>
-  request(`/api/sample${encodeURIComponent(id.trim())}`);
+  request(`/api/sample/${encodeURIComponent(id.trim())}`);
 
-export const submitSample = () =>
+export const submitSample = (data) =>
   request("/api/sample/submit", { method: "POST", body: JSON.stringify(data) });
 
-export const listPanel = () => request("/api/panels");
+export const listPanels = () => request("/api/panels");
 
-export const listSamples = () => {
+export const listSamples = (params = {}) => {
   const qs = new URLSearchParams();
 
+  // Blank filters are dropped so the backend sees no parameter at all.
   for (const [key, value] of Object.entries(params)) {
     if (value == null || value === "") continue;
     qs.set(key, String(value));
