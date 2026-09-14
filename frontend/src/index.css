@@ -1,9 +1,10 @@
-:root {
-  font-family: system-ui, sans-serif;
-  line-height: 1.5;
-  color-scheme: light dark;
-}
+@import "tailwindcss";
 
-body {
-  margin: 0;
+/* Tailwind v4 takes its configuration from CSS. Project-wide tokens and
+   base rules belong here -- there is no tailwind.config.js. */
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
 }
