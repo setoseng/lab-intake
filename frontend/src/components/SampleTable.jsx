@@ -7,11 +7,36 @@ const COLUMNS = [
   "Patient",
   "Date of birth",
   "Type",
+  "Status",
   "Collection date",
   "Priority",
   "Volume",
   "Notes",
 ];
+
+// The list shows every seeded sample, submitted or not, so without a status
+// the unsubmitted rows just look like missing data. Mirrors the backend's
+// own rule: a sample is submitted once it has a collection date.
+function isCollected(sample) {
+  return (
+    sample.collection_date !== null && sample.collection_date !== undefined
+  );
+}
+
+function StatusBadge({ sample }) {
+  if (isCollected(sample)) {
+    return (
+      <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
+        Collected
+      </span>
+    );
+  }
+  return (
+    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+      Pending
+    </span>
+  );
+}
 
 export default function SampleTable({ samples }) {
   return (
@@ -33,7 +58,7 @@ export default function SampleTable({ samples }) {
                 colSpan={COLUMNS.length}
                 className="px-4 py-6 text-center text-slate-500"
               >
-                No submitted samples match.
+                No samples match.
               </td>
             </tr>
           )}
@@ -50,7 +75,10 @@ export default function SampleTable({ samples }) {
                 {formatSampleType(sample.sample_type)}
               </td>
               <td className="whitespace-nowrap px-4 py-3">
-                {formatDate(sample.collection_date)}
+                <StatusBadge sample={sample} />
+              </td>
+              <td className="whitespace-nowrap px-4 py-3">
+                {showOrDash(formatDate(sample.collection_date))}
               </td>
               <td className="px-4 py-3">{showOrDash(sample.priority)}</td>
               <td className="px-4 py-3">{showOrDash(sample.volume)}</td>
